@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
@@ -28,11 +28,14 @@ fun DiceDrawer(
         chunkedRolls.forEach { chunk ->
             Row(modifier = Modifier.fillMaxWidth()) {
                 chunk.forEach { number ->
-                    Dice(
-                        number = number,
-                        isEnabled = number.value >= minimumResult,
-                        modifier = Modifier.weight(1f)
-                    )
+                    key(number) {
+                        Dice(
+                            number = number,
+                            shouldAnimate = state.shouldAnimateDices,
+                            isEnabled = number.value >= minimumResult,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
             }
         }

@@ -4,11 +4,11 @@ import com.cotel.composedice.domain.DiceNumber
 import com.cotel.composedice.domain.Sorting
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.random.Random
 
 data class ViewState(
     val dicesToRoll: Int = 10,
     val minimumResult: Int = 1,
+    val shouldAnimateDices: Boolean = true,
     val sorting: Sorting = Sorting.NO_SORTING,
     val roll: List<DiceNumber> = emptyList()
 ) {
@@ -20,7 +20,7 @@ data class ViewState(
         }
 
     fun changeSorting(): ViewState =
-        copy(sorting = sorting.nextSorting())
+        copy(sorting = sorting.nextSorting(), shouldAnimateDices = false)
 
     fun addDiceToRoll(): ViewState =
         copy(dicesToRoll = dicesToRoll + 1)
