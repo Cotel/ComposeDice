@@ -2,6 +2,7 @@ package com.cotel.composedice.diceroller
 
 import com.cotel.composedice.domain.DiceNumber
 import com.cotel.composedice.domain.Sorting
+import com.cotel.composedice.domain.rollDices
 import kotlin.math.max
 import kotlin.math.min
 
@@ -11,7 +12,7 @@ data class ViewState(
     val shouldAnimateDices: Boolean = true,
     val isClassified: Boolean = false,
     val sorting: Sorting = Sorting.NO_SORTING,
-    val roll: List<DiceNumber> = emptyList()
+    val roll: List<DiceNumber> = rollDices(dicesToRoll)
 ) {
     val sortedRoll: List<DiceNumber>
         get() = when (sorting) {
