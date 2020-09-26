@@ -37,7 +37,7 @@ fun DiceRollerScreen() {
             },
             frontLayerElevation = 8.dp,
             frontLayerScrimColor = Color.Transparent,
-            peekHeight = boxHeight / 2,
+            peekHeight = boxHeight - 320.dp,
             headerHeight = 64.dp,
             frontLayerContent = {
                 RollerControls(
@@ -48,11 +48,13 @@ fun DiceRollerScreen() {
                     dicesToRollCounter = state.dicesToRoll,
                     minimumResult = state.minimumResult,
                     sorting = state.sorting,
+                    isClassified = state.isClassified,
                     removeDice = { setState(state.removeDiceToRoll()) },
                     addDice = { setState(state.addDiceToRoll()) },
                     incrementMinimumResult = { setState(state.incrementMinimumResult()) },
                     decrementMinimumResult = { setState(state.decrementMinimumResult()) },
-                    onChangeSorting = { setState(state.changeSorting()) }
+                    onChangeSorting = { setState(state.changeSorting()) },
+                    onChangeClassified = { setState(state.changeClassified(it)) }
                 )
             }
         )

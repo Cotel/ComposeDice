@@ -9,6 +9,7 @@ data class ViewState(
     val dicesToRoll: Int = 10,
     val minimumResult: Int = 1,
     val shouldAnimateDices: Boolean = true,
+    val isClassified: Boolean = false,
     val sorting: Sorting = Sorting.NO_SORTING,
     val roll: List<DiceNumber> = emptyList()
 ) {
@@ -19,8 +20,27 @@ data class ViewState(
             Sorting.DESC -> roll.sortedByDescending { it.value }
         }
 
+    val classifiedSortedRoll: List<List<DiceNumber>>
+        get() = roll.groupBy { it.value }.values.toList().let { roll ->
+            when (sorting) {
+                Sorting.NO_SORTING -> roll
+                Sorting.ASC -> roll.sortedBy { it.first().value }
+                Sorting.DESC -> roll.sortedByDescending { it.first().value }
+            }
+        }
+
+    fun changeClassified(newValue: Boolean): ViewState =
+        copy(
+            isClassified = newValue,
+            sorting = if (sorting != Sorting.NO_SORTING) sorting else Sorting.ASC,
+            shouldAnimateDices = false
+        )
+
     fun changeSorting(): ViewState =
-        copy(sorting = sorting.nextSorting(), shouldAnimateDices = false)
+        copy(
+            sorting = sorting.nextSorting(omitNoSorting = isClassified),
+            shouldAnimateDices = false
+        )
 
     fun addDiceToRoll(): ViewState =
         copy(dicesToRoll = dicesToRoll + 1)
