@@ -8,10 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.ColumnScope.align
 import androidx.compose.foundation.layout.RowScope.align
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,12 +30,14 @@ fun RollerControls(
     dicesToRollCounter: Int,
     minimumResult: Int,
     sorting: Sorting,
+    isClassified: Boolean,
     onNewRoll: () -> Unit,
     addDice: () -> Unit,
     removeDice: () -> Unit,
     incrementMinimumResult: () -> Unit,
     decrementMinimumResult: () -> Unit,
     onChangeSorting: () -> Unit,
+    onChangeClassified: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -77,6 +76,10 @@ fun RollerControls(
             Spacer(modifier = Modifier.height(16.dp))
 
             SortingControl(sorting = sorting, onChangeSorting = onChangeSorting)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            ClassifiedControl(isChecked = isClassified, onChange = onChangeClassified)
 
             Button(
                 onClick = onNewRoll,
@@ -170,6 +173,20 @@ private fun SortingControl(
     }
 }
 
+@Composable
+fun ClassifiedControl(
+    isChecked: Boolean,
+    onChange: (Boolean) -> Unit
+) {
+    RowControl(title = "Classified") {
+        Checkbox(
+            checked = isChecked,
+            onCheckedChange = onChange,
+            modifier = Modifier.preferredHeight(32.dp)
+        )
+    }
+}
+
 
 @Composable
 private fun RoundedDash(modifier: Modifier = Modifier) {
@@ -189,12 +206,14 @@ private fun RollerControlsPreview() {
         dicesToRollCounter = 10,
         minimumResult = 1,
         sorting = Sorting.NO_SORTING,
+        isClassified = true,
         onNewRoll = {},
         addDice = {},
         removeDice = {},
         incrementMinimumResult = {},
         decrementMinimumResult = {},
-        onChangeSorting = {}
+        onChangeSorting = {},
+        onChangeClassified = {}
     )
 }
 
@@ -217,4 +236,10 @@ private fun SortingControlPreview() {
         SortingControl(sorting = Sorting.ASC, onChangeSorting = {})
         SortingControl(sorting = Sorting.DESC, onChangeSorting = {})
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ClassifiedControlPreview() {
+    ClassifiedControl(isChecked = true, onChange = {})
 }
