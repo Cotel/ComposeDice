@@ -42,9 +42,8 @@ fun DiceRollerScreen() {
             frontLayerContent = {
                 RollerControls(
                     onNewRoll = {
-                        setState(state.copy(roll = emptyList()))
                         val newRoll = rollDices(state.dicesToRoll)
-                        setState(state.copy(roll = newRoll))
+                        setState(state.copy(roll = newRoll, shouldAnimateDices = true))
                     },
                     dicesToRollCounter = state.dicesToRoll,
                     minimumResult = state.minimumResult,

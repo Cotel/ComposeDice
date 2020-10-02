@@ -19,6 +19,7 @@ import kotlin.random.Random
 @Composable
 fun Dice(
     number: DiceNumber,
+    shouldAnimate: Boolean,
     isEnabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
@@ -34,7 +35,7 @@ fun Dice(
     val rotation = animatedFloat(0f)
     val randomSpins = remember(number.rollHash) { Random.nextInt(1, 4) }
     val randomDuration = remember(number.rollHash) { Random.nextInt(600, 1200) }
-    rotation.animateTo(
+    if (shouldAnimate) rotation.animateTo(
         targetValue = 360f * randomSpins,
         anim = tween(
             durationMillis = randomDuration,
@@ -56,11 +57,11 @@ fun Dice(
 @Preview
 @Composable
 private fun DicePreview() {
-    Dice(number = DiceNumber.Six(0L))
+    Dice(number = DiceNumber.Six(0L), shouldAnimate = false)
 }
 
 @Preview
 @Composable
 private fun DisableDicePreview() {
-    Dice(number = DiceNumber.Six(0L), isEnabled = false)
+    Dice(number = DiceNumber.Six(0L), shouldAnimate = false, isEnabled = false)
 }
